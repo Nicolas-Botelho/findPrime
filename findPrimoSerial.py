@@ -4,7 +4,7 @@ array = []
 for i in range(1, 100000):
   array.append(i)
 
-def findPrimo(arr):
+def findPrime(arr):
   primeList = []
 
   for num in arr:
@@ -26,4 +26,4 @@ def check_if_prime(num):
   return True
 
 if __name__ == '__main__':
-  print(findPrimo(array))
+  print(findPrime(array))

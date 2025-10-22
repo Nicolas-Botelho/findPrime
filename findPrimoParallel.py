@@ -8,7 +8,7 @@ for i in range(1, 100001):
 n_core: int = 4
 part_size: int = len(array) // n_core
 
-def findPrimo(arr: list, conn):
+def findPrime(arr: list, conn):
   primeList = []
 
   for num in arr:
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     p_conn, c_conn = mp.Pipe()
     
     p = mp.Process(
-      target=findPrimo,
+      target=findPrime,
       args=(array_of_arrays[index],c_conn,)
     )
     
