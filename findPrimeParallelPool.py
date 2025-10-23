@@ -2,34 +2,36 @@ import numpy as np
 import multiprocessing as mp
 
 array = []
-for i in range(1, 100001):
+for i in range(1, 1000001):
   array.append(i)
 
 n_core: int = 4
 part_size: int = len(array) // n_core
 
-def findPrime(arr: list, conn):
+def findPrime(arr: list):
   primeList = []
 
   for num in arr:
     if check_if_prime(num):
       primeList.append(num)
 
-  conn.send(primeList)
-
-  conn.close()
+  return primeList
 
 def check_if_prime(num):
   index = 2
+  stop = num**0.5 + 1
 
   if num <= 1:
     return False
+  if num == 2:
+    return True
 
-  while index < num:
+  while index < stop:
     if num % index == 0:
       return False
     index += 1
   return True
+
 
 if __name__ == '__main__':
   array_of_arrays = []
@@ -39,29 +41,5 @@ if __name__ == '__main__':
     array_of_arrays.append(array[(ant*part_size):(at*part_size)])
     ant = at
 
-  index = 0
-  processes = []
-  pipes = []
-
-  while index < n_core:
-    p_conn, c_conn = mp.Pipe()
-    
-    p = mp.Process(
-      target=findPrime,
-      args=(array_of_arrays[index],c_conn,)
-    )
-    
-    pipes.append(p_conn)
-    processes.append(p)
-    
-    p.start()
-    
-    index += 1
-  
-  result = []
-
-  for p, conn in zip(processes, pipes):
-    result.append(conn.recv())
-    p.join()
-  
-  print(result)
+  pool = mp.Pool(n_core)
+  print(pool.map(findPrime, array_of_arrays))

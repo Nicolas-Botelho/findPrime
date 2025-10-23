@@ -1,7 +1,7 @@
 import numpy as np
 
 array = []
-for i in range(1, 100000):
+for i in range(1, 1000001):
   array.append(i)
 
 def findPrime(arr):
@@ -15,11 +15,14 @@ def findPrime(arr):
 
 def check_if_prime(num):
   index = 2
+  stop = num**0.5 + 1
 
   if num <= 1:
     return False
+  if num == 2:
+    return True
 
-  while index < num:
+  while index < stop:
     if num % index == 0:
       return False
     index += 1
